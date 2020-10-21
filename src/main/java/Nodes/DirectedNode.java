@@ -2,6 +2,7 @@ package Nodes;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class DirectedNode extends AbstractNode {
 
@@ -78,14 +79,18 @@ public class DirectedNode extends AbstractNode {
 	 * add a new successor with its value cost. If the successor exists, the weight is changed.
 	 */
 	public void addSucc(DirectedNode v,int val) {
-		this.succs.put(v, val);
-	}
-   
-	/**
-	 * add a new predecessor with its value cost. If the predecessor exists, the weight is changed.
-	 */
-	public void addPred(DirectedNode v,int val) {
-		this.preds.put(v, val);
-	}
+    this.succs.put(v, val);
+  }
 
+  /**
+   * add a new predecessor with its value cost. If the predecessor exists, the weight is changed.
+   */
+  public void addPred(DirectedNode v, int val) {
+    this.preds.put(v, val);
+  }
+
+  @Override
+  public Set<? extends AbstractNode> getSuccOrNeighbour() {
+    return this.succs.keySet();
+  }
 }

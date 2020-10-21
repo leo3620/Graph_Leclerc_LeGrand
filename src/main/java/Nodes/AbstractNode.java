@@ -1,6 +1,8 @@
 package Nodes;
 
 
+import java.util.Set;
+
 public abstract class AbstractNode {
 
 	//--------------------------------------------------
@@ -44,14 +46,24 @@ public abstract class AbstractNode {
 
 	/**
 	 * setter for the weight variable
+	 *
 	 * @param w the weight to set
 	 */
-	public void setWeight(int w){
+	public void setWeight(int w) {
 		this.weight = w;
 	}
 
+	public Set<? extends AbstractNode> getSuccOrNeighbour() {
+		{
+			return null;
+		}
+	}
+
+	;
+
 	/**
 	 * check if two nodes are equals => the label is the key
+	 *
 	 * @param n an object which is an abstract node
 	 * @return true iff this and n are equal
 	 */

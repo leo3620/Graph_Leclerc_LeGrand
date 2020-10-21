@@ -2,6 +2,7 @@ package Nodes;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by gsimonin on 05/01/2020.
@@ -45,14 +46,19 @@ public class UndirectedNode extends AbstractNode {
      * @return the number of neighbors of node this
      */
 	public int getNbNeigh() {
-        return neighbours.size();
-    }
-	
-	/**
-	 * add a new neighbour with its value cost. If the neighbour exists, the weight is changed.
-	 */
-	public void addNeigh(UndirectedNode v, int val) {
-		this.neighbours.put(v, val);
-	}
+    return neighbours.size();
+  }
 
+  /**
+   * add a new neighbour with its value cost. If the neighbour exists, the weight is changed.
+   */
+  public void addNeigh(UndirectedNode v, int val) {
+    this.neighbours.put(v, val);
+  }
+
+
+  @Override
+  public Set<? extends AbstractNode> getSuccOrNeighbour() {
+    return this.neighbours.keySet();
+  }
 }
