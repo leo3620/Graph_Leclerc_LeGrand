@@ -3,8 +3,9 @@ package GraphAlgorithms;
 import Abstraction.AbstractListGraph;
 import AdjacencyList.DirectedGraph;
 import Nodes.AbstractNode;
-
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class GraphToolsList  extends GraphTools {
 
@@ -33,11 +34,7 @@ public class GraphToolsList  extends GraphTools {
 	// ------------------------------------------
 
 	public static void breadthFirstSearch(AbstractListGraph<AbstractNode> graph) {
-		Boolean[] mark = new Boolean[graph.getNbNodes()];
-
-		for (int i = 0; i < graph.getNbNodes(); i++) {
-			mark[i] = false;
-		}
+		boolean[] mark = new boolean[graph.getNbNodes()];
 
 		AbstractNode s = graph.getNodes().get(0);
 		mark[s.getLabel()] = true;
@@ -83,7 +80,7 @@ public class GraphToolsList  extends GraphTools {
 	}
 
 	public static void main(String[] args) {
-		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100000);
+		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
 		GraphTools.afficherMatrix(Matrix);
 		AbstractListGraph al = new DirectedGraph(Matrix);
 		//System.out.println(al);
