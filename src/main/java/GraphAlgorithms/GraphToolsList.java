@@ -3,13 +3,12 @@ package GraphAlgorithms;
 import Abstraction.AbstractListGraph;
 import AdjacencyList.DirectedGraph;
 import Nodes.AbstractNode;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+
+import java.util.*;
 
 public class GraphToolsList  extends GraphTools {
 
-	private static int _DEBBUG =0;
+	private static final int _DEBBUG =0;
 
 	private static int[] visite;
 	private static int[] debut;
@@ -57,12 +56,42 @@ public class GraphToolsList  extends GraphTools {
 		}
 	}
 
+	public static void depthFirstSearch(AbstractListGraph<AbstractNode> graph) {
+		Set<AbstractNode> marked = new HashSet<>();
+
+		AbstractNode firstNode = graph.getNodes().get(0);
+		marked.add(firstNode);
+
+		for (AbstractNode node : graph.getNodes()) {
+			if (firstNode.getSuccOrNeighbour().contains(node)) {
+				if (!marked.contains(node)) {
+					exploreNode(firstNode, marked);
+				}
+			}
+		}
+	}
+
+	public static void exploreNode(AbstractNode node, Set<AbstractNode> marked) {
+		marked.add(node);
+		System.out.print(node + " ");
+
+		for (AbstractNode neighbour : node.getSuccOrNeighbour()) {
+			if (!marked.contains(neighbour)) {
+				exploreNode(neighbour, marked);
+			}
+		}
+	}
+
 	public static void main(String[] args) {
-		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
+		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100000);
 		GraphTools.afficherMatrix(Matrix);
 		AbstractListGraph al = new DirectedGraph(Matrix);
 		//System.out.println(al);
+		System.out.print("Breadth First Search : ");
 		breadthFirstSearch(al);
+		System.out.println("\n=======================================\n");
+		System.out.print("Depth First Search : ");
+		depthFirstSearch(al);
 
 		// A completer
 	}
