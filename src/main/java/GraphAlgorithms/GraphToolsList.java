@@ -47,45 +47,21 @@ public class GraphToolsList  extends GraphTools {
 		toVisit.add(s);
 		while (!toVisit.isEmpty()) {
 			AbstractNode v = toVisit.remove();
+			System.out.print(v + " ");
 			for (AbstractNode node : v.getSuccOrNeighbour()) {
 				if (!mark[node.getLabel()]) {
 					mark[node.getLabel()] = true;
 					toVisit.add(node);
 				}
 			}
-			System.out.println(toVisit.toString());
 		}
 	}
-
-	/*
-	public void breadthFirstSearch(AbstractListGraph<UndirectedNode> graph) {
-		Boolean[] mark = new Boolean[graph.getNbNodes()];
-
-		UndirectedNode s = graph.getNodes().get(0);
-		mark[s.getLabel()] = true ;
-
-		Queue<UndirectedNode> toVisit = new PriorityQueue<>();
-		toVisit.add(s) ;
-		while (!toVisit.isEmpty()) {
-			UndirectedNode v = toVisit.remove() ;
-			for (Entry<UndirectedNode, Integer> node : v.getNeighbours().entrySet()) {
-				UndirectedNode w = node.getKey();
-				if(!mark[w.getLabel()]) {
-					mark[w.getLabel()] = true;
-					toVisit.add(w) ;
-				}
-			}
-		}
-	}
-	/
-*/
-
 
 	public static void main(String[] args) {
 		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
 		GraphTools.afficherMatrix(Matrix);
 		AbstractListGraph al = new DirectedGraph(Matrix);
-		System.out.println(al);
+		//System.out.println(al);
 		breadthFirstSearch(al);
 
 		// A completer
