@@ -89,11 +89,6 @@ public class GraphToolsList extends GraphTools {
 		}
 	}
 
-	public static void composanteConnexe(AbstractListGraph<AbstractNode> graph) {
-		Set<AbstractNode> marked = new HashSet<>();
-
-	}
-
 	static void explorerSommet(AbstractNode s, Set<AbstractNode> a,
 			List<AbstractNode> uneComposante) {
 		a.add(s);
