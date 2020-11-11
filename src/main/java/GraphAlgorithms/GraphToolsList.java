@@ -7,7 +7,9 @@ import AdjacencyList.DirectedGraph;
 import Nodes.AbstractNode;
 import Nodes.DirectedNode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -141,6 +143,65 @@ public class GraphToolsList extends GraphTools {
 		System.out.println(explorerGraphe(graphInverse, sorted));
 	}
 
+	static void bellman(AbstractListGraph<AbstractNode> graph) {
+
+	}
+
+	/**
+	 * Djikstra method to get path between 2 nodes
+	 *
+	 * @param graph Matrix graph
+	 * @param n     Number of vertices
+	 * @param src   source node
+	 * @param dst   destination node
+	 */
+	static void djikstra(int[][] graph, int n, int src, int dst) {
+		int[] v = new int[n];
+		int[] p = new int[n];
+		Boolean[] b = new Boolean[n];
+		Arrays.fill(b, Boolean.FALSE);
+		Arrays.fill(v, Integer.MAX_VALUE);
+		v[src] = 0;
+		int x = 0;
+
+		while (!Arrays.stream(b).allMatch(s -> s.equals(true))) {
+			int min = Integer.MAX_VALUE;
+			for (int y = 0; y < n; y++) {
+				if (!b[y] && v[y] < min) {
+					x = y;
+					min = v[y];
+				}
+			}
+			if (min < Integer.MAX_VALUE) {
+				b[x] = true;
+				for (int y = 0; y < n; y++) {
+					// Add !=0 because in our graph representation 0 means no path
+					if (!b[y] && v[x] + graph[x][y] < v[y] && graph[x][y] != 0) {
+						v[y] = v[x] + graph[x][y];
+						p[y] = x;
+					}
+				}
+				// If all accessible nodes from origin is done
+			} else {
+				break;
+			}
+		}
+		int h = dst;
+		Deque<Integer> path = new LinkedList<>();
+		path.add(h);
+		while (h != src) {
+			if (v[h] == Integer.MAX_VALUE) {
+				throw new IndexOutOfBoundsException("Impossible d'attendre ce sommet");
+			}
+			path.addFirst(p[h]);
+			h = p[h];
+		}
+		System.out.println(Arrays.toString(v));
+		System.out.println("\n=======================================\n");
+		System.out.print("Chemin :  ");
+		System.out.println(path.toString());
+	}
+
 
 	public static void main(String[] args) {
 		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
@@ -155,6 +216,9 @@ public class GraphToolsList extends GraphTools {
 		System.out.println("\n=======================================\n");
 		System.out.print("Get connexity : ");
 		getConnex((DirectedGraph) al);
+		System.out.println("\n=======================================\n");
+		System.out.print("Djikstra ");
+		djikstra(Matrix, 10, 0, 8);
 		// A completer
 	}
 }
