@@ -4,8 +4,14 @@ import static java.util.stream.Collectors.toList;
 
 import Abstraction.AbstractListGraph;
 import AdjacencyList.DirectedGraph;
+import AdjacencyList.DirectedValuedGraph;
+import AdjacencyList.UndirectedGraph;
+import AdjacencyList.UndirectedValuedGraph;
+import Collection.Triple;
 import Nodes.AbstractNode;
 import Nodes.DirectedNode;
+import Nodes.UndirectedNode;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -109,7 +115,7 @@ public class GraphToolsList extends GraphTools {
 	}
 
 	static List<List<AbstractNode>> explorerGraphe(DirectedGraph graph, List<DirectedNode> sommets) {
-		Set<AbstractNode> atteint = new HashSet<AbstractNode>();
+		Set<AbstractNode> atteint = new HashSet<>();
 
 		debut = new int[graph.getNbNodes()];
 		visite = new int[graph.getNbNodes()];
@@ -143,8 +149,68 @@ public class GraphToolsList extends GraphTools {
 		System.out.println(explorerGraphe(graphInverse, sorted));
 	}
 
-	static void bellman(AbstractListGraph<AbstractNode> graph) {
+	static void prim(UndirectedValuedGraph graph, UndirectedNode node) {
+		BinaryHeapEdge binaryHeapEdge = new BinaryHeapEdge();
+		List<UndirectedNode> visited = new ArrayList<>();
+		visited.add(node);
 
+		UndirectedNode actualNode = node;
+		while (visited.size() != graph.getNodes().size()) {
+			for(UndirectedNode neighbour : actualNode.getNeighbours().keySet()) {
+				binaryHeapEdge.insert(actualNode, neighbour, actualNode.getNeighbours().get(neighbour));
+			}
+			Triple<UndirectedNode, UndirectedNode, Integer> edge = binaryHeapEdge.remove();
+			while (visited.contains(edge.getSecond())) {
+				edge = binaryHeapEdge.remove();
+			}
+			System.out.println(edge);
+			visited.add(edge.getSecond());
+			actualNode = edge.getSecond();
+		}
+
+	}
+
+	static void bellman(DirectedValuedGraph graph) {
+		int n = graph.getNbNodes();
+		List<Integer> predecActuel = new ArrayList<>();
+		List<Integer> predecAvant = new ArrayList<>();
+		List<Integer> valeursActuel = new ArrayList<>();
+		List<Integer> valeursAvant = new ArrayList<>();
+
+		for (int i = 0; i < n; i++) {
+			predecActuel.add(-1);
+			predecAvant.add(-1);
+			valeursActuel.add(Integer.MAX_VALUE);
+			valeursAvant.add(Integer.MAX_VALUE);
+		}
+
+		predecAvant.add(0, 0);
+		valeursAvant.add(0, 0);
+
+		for (int k = 0; k <= n; k++) { // parcours
+			for (int v = 0; v < n; v++) { // noeuds
+				int d = valeursAvant.get(v);
+				predecActuel.add(v, predecAvant.get(v));
+				for (DirectedNode u : graph.getNodeOfList(new DirectedNode(v)).getPreds().keySet()) {
+					if (valeursAvant.get(u.getLabel()) + u.getSuccs().get(graph.getNodeOfList(new DirectedNode(v))) < d) {
+						predecActuel.add(v, u.getLabel());
+						d = predecAvant.get(u.getLabel()) + u.getSuccs().get(graph.getNodeOfList(new DirectedNode(v)));
+					}
+				}
+				valeursActuel.add(v, d);
+			}
+
+			if (k == n) {
+				System.out.println(valeursAvant);
+				System.out.println(valeursActuel);
+				System.out.println(valeursAvant.equals(valeursActuel));
+			} else {
+				predecAvant = predecActuel;
+				predecActuel = new ArrayList<>();
+				valeursAvant = valeursActuel;
+				valeursActuel = new ArrayList<>();
+			}
+		}
 	}
 
 	/**
@@ -205,8 +271,12 @@ public class GraphToolsList extends GraphTools {
 
 	public static void main(String[] args) {
 		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
+		int[][] MatrixUndirected = GraphTools.generateValuedGraphData(10, false, true, true, false, 100001);
+		int[][] MatrixValued = GraphTools.generateValuedGraphData(10, false, false, true, false, 100000);
 		GraphTools.afficherMatrix(Matrix);
 		AbstractListGraph al = new DirectedGraph(Matrix);
+		UndirectedValuedGraph alUndirected = new UndirectedValuedGraph(MatrixUndirected);
+		DirectedValuedGraph dvg = new DirectedValuedGraph(MatrixValued);
 		//System.out.println(al);
 		System.out.print("Breadth First Search : ");
 		breadthFirstSearch(al);
@@ -219,6 +289,12 @@ public class GraphToolsList extends GraphTools {
 		System.out.println("\n=======================================\n");
 		System.out.print("Djikstra ");
 		djikstra(Matrix, 10, 0, 8);
-		// A completer
+		System.out.println("\n=======================================\n");
+		System.out.print("Bellman ");
+		bellman(dvg);
+		System.out.println("\n=======================================\n");
+		System.out.print("Prim ");
+		System.out.print(alUndirected);
+		prim(alUndirected, alUndirected.getNodeOfList(new UndirectedNode(0)));
 	}
 }
