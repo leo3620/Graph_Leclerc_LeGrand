@@ -28,20 +28,48 @@ public class BinaryHeap {
     }
 
     public void insert(int element) {
-    	// A completer
+    	this.nodes[this.pos] = element;
+
+        int tmpPos = this.pos;
+
+    	while (Math.round((tmpPos-1)/2) >= 0 && element < this.nodes[Math.round((tmpPos-1)/2)]) {
+    	    int parentIndex = Math.round((tmpPos-1)/2);
+            this.swap(parentIndex, tmpPos);
+            tmpPos = parentIndex;
+        }
+        this.pos++;
     }
 
     public int remove() {
-    	// A completer
-    	return 0;
+
+        this.swap(0, this.pos-1);
+        int value = this.nodes[this.pos-1];
+        this.nodes[this.pos-1] = Integer.MAX_VALUE;
+
+        int tmpPos = 0;
+        int bestChild = this.getBestChildPos(tmpPos);
+        while (bestChild != Integer.MAX_VALUE  && this.nodes[bestChild] < this.nodes[tmpPos]) {
+            this.swap(tmpPos, bestChild);
+            tmpPos = bestChild;
+            bestChild = this.getBestChildPos(tmpPos);
+        }
+
+        this.pos--;
+    	return value;
     }
 
     private int getBestChildPos(int src) {
         if (isLeaf(src)) { // the leaf is a stopping case, then we return a default value
             return Integer.MAX_VALUE;
+        } else if ((src*2)+2 < this.pos-1) {
+                // deux
+                int valueLeft = this.nodes[(src*2)+1];
+                int valueRight = this.nodes[(src*2)+2];
+
+                return (valueLeft <= valueRight) ? (src*2)+1 : (src*2)+2;
         } else {
-        	// A completer
-        	return Integer.MAX_VALUE;
+            // un
+            return (src*2)+1;
         }
     }
 
@@ -53,8 +81,7 @@ public class BinaryHeap {
 	 * 
 	 */	
     private boolean isLeaf(int src) {
-    	// A completer
-    	return false;
+    	return (2*src)+1 > this.pos-1;
     }
 
     private void swap(int father, int child) {
@@ -109,6 +136,10 @@ public class BinaryHeap {
             k--;
         }
      // A completer
+        System.out.println("\n" + jarjarBin);
+        System.out.println(jarjarBin.test());
+        System.out.println("\n====================  Remove ======================");
+        System.out.println("removed : " + jarjarBin.remove());
         System.out.println("\n" + jarjarBin);
         System.out.println(jarjarBin.test());
     }
