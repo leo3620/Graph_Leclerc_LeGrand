@@ -1,11 +1,9 @@
 package AdjacencyMatrix;
 
 import Abstraction.AbstractMatrixGraph;
-import GraphAlgorithms.GraphTools;
-import Nodes.AbstractNode;
-import Nodes.DirectedNode;
 import Abstraction.IDirectedGraph;
-
+import GraphAlgorithms.GraphTools;
+import Nodes.DirectedNode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +113,6 @@ public class AdjacencyMatrixDirectedGraph extends AbstractMatrixGraph<DirectedNo
 				am.matrix[j][i] = tmp;
 			}
 		}
-		// A completer
 		return am;
 	}
 
@@ -145,6 +142,5 @@ public class AdjacencyMatrixDirectedGraph extends AbstractMatrixGraph<DirectedNo
 		for (Integer integer : t2) {
 			System.out.print(integer + ", ");
 		}
-		// A completer
 	}
 }

@@ -1,13 +1,11 @@
 package AdjacencyMatrix;
 
 import Abstraction.AbstractMatrixGraph;
+import Abstraction.IUndirectedGraph;
 import GraphAlgorithms.GraphTools;
 import Nodes.AbstractNode;
 import Nodes.UndirectedNode;
-import Abstraction.IUndirectedGraph;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -127,6 +125,5 @@ public class AdjacencyMatrixUndirectedGraph extends AbstractMatrixGraph<Undirect
 		System.out.println(am);
 		am.removeEdge(new UndirectedNode(2), new UndirectedNode(5));
 		System.out.println(am);
-		// A completer
 	}
 }

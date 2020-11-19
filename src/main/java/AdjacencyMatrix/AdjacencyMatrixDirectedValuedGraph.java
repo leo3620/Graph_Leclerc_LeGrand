@@ -1,7 +1,6 @@
 package AdjacencyMatrix;
 
 import GraphAlgorithms.GraphTools;
-import Nodes.AbstractNode;
 import Nodes.DirectedNode;
 
 public class AdjacencyMatrixDirectedValuedGraph extends AdjacencyMatrixDirectedGraph {
@@ -81,6 +80,5 @@ public class AdjacencyMatrixDirectedValuedGraph extends AdjacencyMatrixDirectedG
         int[][] matrixValued = GraphTools.generateValuedGraphData(10, false, false, true, false, 100001);
 		AdjacencyMatrixDirectedValuedGraph am = new AdjacencyMatrixDirectedValuedGraph(matrix, matrixValued);
 		System.out.println(am);
-		// A completer
 	}
 }
