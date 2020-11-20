@@ -293,8 +293,7 @@ public class GraphToolsList extends GraphTools {
 		System.out.print("Bellman ");
 		bellman(dvg);
 		System.out.println("\n=======================================\n");
-		System.out.print("Prim ");
-		System.out.print(alUndirected);
+		System.out.println("Prim ");
 		prim(alUndirected, alUndirected.getNodeOfList(new UndirectedNode(0)));
 	}
 }
